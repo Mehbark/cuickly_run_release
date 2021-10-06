@@ -6,11 +6,13 @@ fn main() {
 }
 
 fn get_working_directory() -> String {
-    let mut wd = String::from_utf8(Command::new("pwd")
-        .output()
-        .expect("pwd didn't work for some reason lol")
-        .stdout
-    ).expect("failed to parse tring getting working directory");
+    let mut wd = String::from_utf8(
+        Command::new("pwd")
+            .output()
+            .expect("pwd didn't work for some reason lol")
+            .stdout,
+    )
+    .expect("failed to parse tring getting working directory");
     wd.pop();
 
     wd
@@ -20,7 +22,7 @@ fn lowest_directory(directory: String) -> String {
     directory
         .split('/')
         .last()
-        .expect("pwd gave us invalid output ig or ew windows")
+        .expect("Couldn't parse directory")
         .to_string()
 }
 
@@ -36,13 +38,12 @@ fn run_program() -> String {
     //     );
     String::from_utf8(
         Command::new(format!(
-            "{base}/target/release/{name}",
-            base = get_working_directory(),
+            "./target/release/{name}",
             name = guess_program_filename()
         ))
         .output()
         .expect("something went wrong execcing")
-        .stdout
+        .stdout,
     )
     .expect("failed to parse string running program")
 }
